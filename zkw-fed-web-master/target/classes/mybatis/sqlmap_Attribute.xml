@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.AttributeMapper">
+    <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.Attribute">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="wid" jdbcType="BIT" property="wid"/>
+        <result column="sort" jdbcType="BIT" property="sort"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="exam_show" jdbcType="BIT" property="examShow"/>
+        <result column="img" jdbcType="VARCHAR" property="img"/>
+        <result column="is_show" jdbcType="BIT" property="isShow"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, pid, wid, sort, status, exam_show, img, is_show
+  </sql>
+    <!--查询课程推荐二级标题-->
+    <select id="SecondLevel" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+            SELECT a.id , a.`name` FROM `hbb_attribute` a JOIN `hbb_class_attr` b ON b.`atsub`=a.id WHERE a.`status` =1 AND b.`acid`=#{acid} GROUP BY a.id
+    </select>
+
+
+
+
+
+
+
+
+
+    <!--<select id="GradeSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+    <!--SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id&gt;=27 AND id&lt;=34-->
+  <!--</select>-->
+
+    <!--<select id="JuniorSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+        <!--SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id&gt;=35 AND id&lt;=39-->
+  <!--</select>-->
+
+    <!--<select id="SeniorSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+        <!--SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id&gt;=40 AND id&lt;=42-->
+    <!--</select>-->
+
+    <!--<select id="StateSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+        <!--SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id&gt;=191 AND id&lt;=191-->
+    <!--</select>-->
+
+    <!--&lt;!&ndash;资格证=======================================================================三级标题&ndash;&gt;-->
+
+    <!--<select id="BuildSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+<!--&#45;&#45;         SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id&gt;=77 AND id&lt;=79 or id=192-->
+        <!--SELECT a.id , a.`name` FROM `hbb_attribute` a JOIN `hbb_class_attr` b ON b.`atsub`=a.id WHERE a.`status` =1 AND b.`acid`=18 GROUP BY a.id-->
+    <!--</select>-->
+    <!--<select id="MedicalSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+        <!--SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id&gt;=80 AND id&lt;=84-->
+    <!--</select>-->
+    <!--<select id="TeacherSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+        <!--SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id&gt;=87 AND id&lt;=89-->
+    <!--</select>-->
+    <!--<select id="BankSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+        <!--SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id&gt;=85 AND id&lt;=86-->
+    <!--</select>-->
+    <!--<select id="AccountantSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+        <!--SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id=202-->
+    <!--</select>-->
+    <!--<select id="CETSecond" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+        <!--SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id=90-->
+    <!--</select>-->
+
+    <!--继续教育=======================================================================三级标题-->
+
+    <!--<select id="selectAttributeThreeZ6" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id=117 or id=125
+    </select>
+    <select id="selectAttributeThreeZ6" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id=117 or id=125
+    </select>
+    <select id="selectAttributeThreeZ6" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT NAME FROM hbb_attribute WHERE STATUS=1 AND pid =${pid} AND id=90
+    </select>-->
+
+
+
+
+
+
+
+
+
+
+    <!--<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+    <!--select -->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from hbb_attribute-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</select>-->
+    <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
+    <!--delete from hbb_attribute-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</delete>-->
+    <!--<insert id="insert" parameterType="com.zkw.fedweb.dao.po.Attribute">-->
+    <!--insert into hbb_attribute (id, name, pid, -->
+    <!--wid, sort, status, exam_show, -->
+    <!--img, is_show)-->
+    <!--values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, -->
+    <!--#{wid,jdbcType=BIT}, #{sort,jdbcType=BIT}, #{status,jdbcType=BIT}, #{examShow,jdbcType=BIT}, -->
+    <!--#{img,jdbcType=VARCHAR}, #{isShow,jdbcType=BIT})-->
+    <!--</insert>-->
+    <!--<insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.Attribute">-->
+    <!--insert into hbb_attribute-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--<if test="id != null">-->
+    <!--id,-->
+    <!--</if>-->
+    <!--<if test="name != null">-->
+    <!--name,-->
+    <!--</if>-->
+    <!--<if test="pid != null">-->
+    <!--pid,-->
+    <!--</if>-->
+    <!--<if test="wid != null">-->
+    <!--wid,-->
+    <!--</if>-->
+    <!--<if test="sort != null">-->
+    <!--sort,-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--status,-->
+    <!--</if>-->
+    <!--<if test="examShow != null">-->
+    <!--exam_show,-->
+    <!--</if>-->
+    <!--<if test="img != null">-->
+    <!--img,-->
+    <!--</if>-->
+    <!--<if test="isShow != null">-->
+    <!--is_show,-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+    <!--<if test="id != null">-->
+    <!--#{id,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="name != null">-->
+    <!--#{name,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="pid != null">-->
+    <!--#{pid,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="wid != null">-->
+    <!--#{wid,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="sort != null">-->
+    <!--#{sort,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--#{status,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="examShow != null">-->
+    <!--#{examShow,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="img != null">-->
+    <!--#{img,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="isShow != null">-->
+    <!--#{isShow,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--</insert>-->
+    <!--<update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.Attribute">-->
+    <!--update hbb_attribute-->
+    <!--<set>-->
+    <!--<if test="name != null">-->
+    <!--name = #{name,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="pid != null">-->
+    <!--pid = #{pid,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="wid != null">-->
+    <!--wid = #{wid,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="sort != null">-->
+    <!--sort = #{sort,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--status = #{status,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="examShow != null">-->
+    <!--exam_show = #{examShow,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="img != null">-->
+    <!--img = #{img,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="isShow != null">-->
+    <!--is_show = #{isShow,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--</set>-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</update>-->
+    <!--<update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.Attribute">-->
+    <!--update hbb_attribute-->
+    <!--set name = #{name,jdbcType=VARCHAR},-->
+    <!--pid = #{pid,jdbcType=INTEGER},-->
+    <!--wid = #{wid,jdbcType=BIT},-->
+    <!--sort = #{sort,jdbcType=BIT},-->
+    <!--status = #{status,jdbcType=BIT},-->
+    <!--exam_show = #{examShow,jdbcType=BIT},-->
+    <!--img = #{img,jdbcType=VARCHAR},-->
+    <!--is_show = #{isShow,jdbcType=BIT}-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</update>-->
+</mapper>

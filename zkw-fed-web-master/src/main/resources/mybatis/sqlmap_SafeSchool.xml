@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.SafeSchoolMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.SafeSchool">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="stitle" jdbcType="VARCHAR" property="stitle" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="cengci" jdbcType="VARCHAR" property="cengci" />
+    <result column="tese" jdbcType="VARCHAR" property="tese" />
+    <result column="liyou" jdbcType="VARCHAR" property="liyou" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="zan" jdbcType="INTEGER" property="zan" />
+    <result column="is_hot" jdbcType="TINYINT" property="isHot" />
+    <result column="is_show" jdbcType="TINYINT" property="isShow" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zkw.fedweb.dao.po.SafeSchool">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, img, admin_id, title, stitle, intro, address, pv, cengci, tese, liyou, sort, 
+    zan, is_hot, is_show, status, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="recommend" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select * from hbb_safe_school where is_show= 1 order by id desc
+  </select>
+
+  <select id="particulars" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  SELECT * FROM hbb_safe_school WHERE id=#{id}
+  </select>
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hbb_safe_school
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_safe_school
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.SafeSchool">
+    insert into hbb_safe_school (id, img, admin_id, 
+      title, stitle, intro, 
+      address, pv, cengci, 
+      tese, liyou, sort, 
+      zan, is_hot, is_show, 
+      status, create_time, update_time, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{img,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{stitle,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{pv,jdbcType=INTEGER}, #{cengci,jdbcType=VARCHAR}, 
+      #{tese,jdbcType=VARCHAR}, #{liyou,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, 
+      #{zan,jdbcType=INTEGER}, #{isHot,jdbcType=TINYINT}, #{isShow,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.SafeSchool">
+    insert into hbb_safe_school
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="stitle != null">
+        stitle,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="cengci != null">
+        cengci,
+      </if>
+      <if test="tese != null">
+        tese,
+      </if>
+      <if test="liyou != null">
+        liyou,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="zan != null">
+        zan,
+      </if>
+      <if test="isHot != null">
+        is_hot,
+      </if>
+      <if test="isShow != null">
+        is_show,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="stitle != null">
+        #{stitle,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="cengci != null">
+        #{cengci,jdbcType=VARCHAR},
+      </if>
+      <if test="tese != null">
+        #{tese,jdbcType=VARCHAR},
+      </if>
+      <if test="liyou != null">
+        #{liyou,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="zan != null">
+        #{zan,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=TINYINT},
+      </if>
+      <if test="isShow != null">
+        #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.SafeSchool">
+    update hbb_safe_school
+    <set>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="stitle != null">
+        stitle = #{stitle,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="cengci != null">
+        cengci = #{cengci,jdbcType=VARCHAR},
+      </if>
+      <if test="tese != null">
+        tese = #{tese,jdbcType=VARCHAR},
+      </if>
+      <if test="liyou != null">
+        liyou = #{liyou,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="zan != null">
+        zan = #{zan,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        is_hot = #{isHot,jdbcType=TINYINT},
+      </if>
+      <if test="isShow != null">
+        is_show = #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zkw.fedweb.dao.po.SafeSchool">
+    update hbb_safe_school
+    set img = #{img,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      stitle = #{stitle,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      cengci = #{cengci,jdbcType=VARCHAR},
+      tese = #{tese,jdbcType=VARCHAR},
+      liyou = #{liyou,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      zan = #{zan,jdbcType=INTEGER},
+      is_hot = #{isHot,jdbcType=TINYINT},
+      is_show = #{isShow,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.SafeSchool">
+    update hbb_safe_school
+    set img = #{img,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      stitle = #{stitle,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      cengci = #{cengci,jdbcType=VARCHAR},
+      tese = #{tese,jdbcType=VARCHAR},
+      liyou = #{liyou,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      zan = #{zan,jdbcType=INTEGER},
+      is_hot = #{isHot,jdbcType=TINYINT},
+      is_show = #{isShow,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.AreaMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.Area">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="aid" jdbcType="INTEGER" property="aid" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="shortname" jdbcType="VARCHAR" property="shortname" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="merger_name" jdbcType="VARCHAR" property="mergerName" />
+    <result column="level" jdbcType="TINYINT" property="level" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, aid, pid, shortname, name, merger_name, level, code
+  </sql>
+  <select id="toponym" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+               SELECT
+a.id AS aid ,
+b.id AS bid ,
+a.name AS aname,
+b.name AS bname
+FROM hbb_area_all a
+LEFT JOIN hbb_area_all b
+  ON a.id = b.pid
+  WHERE a.id =#{aid}
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hbb_area
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_area
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.Area">
+    insert into hbb_area (id, aid, pid, 
+      shortname, name, merger_name, 
+      level, code)
+    values (#{id,jdbcType=INTEGER}, #{aid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, 
+      #{shortname,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{mergerName,jdbcType=VARCHAR}, 
+      #{level,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.Area">
+    insert into hbb_area
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="aid != null">
+        aid,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="shortname != null">
+        shortname,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="mergerName != null">
+        merger_name,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="aid != null">
+        #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="shortname != null">
+        #{shortname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mergerName != null">
+        #{mergerName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.Area">
+    update hbb_area
+    <set>
+      <if test="aid != null">
+        aid = #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="shortname != null">
+        shortname = #{shortname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mergerName != null">
+        merger_name = #{mergerName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.Area">
+    update hbb_area
+    set aid = #{aid,jdbcType=INTEGER},
+      pid = #{pid,jdbcType=INTEGER},
+      shortname = #{shortname,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      merger_name = #{mergerName,jdbcType=VARCHAR},
+      level = #{level,jdbcType=TINYINT},
+      code = #{code,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

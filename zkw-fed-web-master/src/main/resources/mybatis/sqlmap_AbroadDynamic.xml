@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.AbroadDynamicMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.AbroadDynamic">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="is_comment" jdbcType="TINYINT" property="isComment" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="cnum" jdbcType="SMALLINT" property="cnum" />
+    <result column="is_show" jdbcType="TINYINT" property="isShow" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zkw.fedweb.dao.po.AbroadDynamic">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, is_top, is_comment, admin_id, company, title, intro, img, pv, cnum, is_show, 
+    status, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+
+  <select id="Dynamic" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT  title,id FROM hbb_abroad_dynamic WHERE STATUS=1 ORDER BY id DESC LIMIT 8
+
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hbb_abroad_dynamic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_abroad_dynamic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.AbroadDynamic">
+    insert into hbb_abroad_dynamic (id, is_top, is_comment, 
+      admin_id, company, title, 
+      intro, img, pv, cnum, 
+      is_show, status, create_time, 
+      update_time, content)
+    values (#{id,jdbcType=INTEGER}, #{isTop,jdbcType=BIT}, #{isComment,jdbcType=TINYINT}, 
+      #{adminId,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{intro,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{pv,jdbcType=INTEGER}, #{cnum,jdbcType=SMALLINT}, 
+      #{isShow,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.AbroadDynamic">
+    insert into hbb_abroad_dynamic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="isComment != null">
+        is_comment,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="cnum != null">
+        cnum,
+      </if>
+      <if test="isShow != null">
+        is_show,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=BIT},
+      </if>
+      <if test="isComment != null">
+        #{isComment,jdbcType=TINYINT},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="cnum != null">
+        #{cnum,jdbcType=SMALLINT},
+      </if>
+      <if test="isShow != null">
+        #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.AbroadDynamic">
+    update hbb_abroad_dynamic
+    <set>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="isComment != null">
+        is_comment = #{isComment,jdbcType=TINYINT},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="cnum != null">
+        cnum = #{cnum,jdbcType=SMALLINT},
+      </if>
+      <if test="isShow != null">
+        is_show = #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zkw.fedweb.dao.po.AbroadDynamic">
+    update hbb_abroad_dynamic
+    set is_top = #{isTop,jdbcType=BIT},
+      is_comment = #{isComment,jdbcType=TINYINT},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      company = #{company,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      cnum = #{cnum,jdbcType=SMALLINT},
+      is_show = #{isShow,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.AbroadDynamic">
+    update hbb_abroad_dynamic
+    set is_top = #{isTop,jdbcType=BIT},
+      is_comment = #{isComment,jdbcType=TINYINT},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      company = #{company,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      cnum = #{cnum,jdbcType=SMALLINT},
+      is_show = #{isShow,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

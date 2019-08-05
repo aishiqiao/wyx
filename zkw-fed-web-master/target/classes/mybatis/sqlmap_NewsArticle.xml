@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.NewsArticleMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.NewsArticle">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title_img" jdbcType="VARCHAR" property="titleImg" />
+    <result column="is_show" jdbcType="BIT" property="isShow" />
+    <result column="grade" jdbcType="BIT" property="grade" />
+    <result column="cate_id" jdbcType="TINYINT" property="cateId" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="fabu" jdbcType="VARCHAR" property="fabu" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="zan" jdbcType="INTEGER" property="zan" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="is_shen" jdbcType="BIT" property="isShen" />
+    <result column="province" jdbcType="INTEGER" property="province" />
+    <result column="city" jdbcType="INTEGER" property="city" />
+    <result column="ord" jdbcType="INTEGER" property="ord" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+    <result column="test_time" jdbcType="INTEGER" property="testTime" />
+    <result column="jump_url" jdbcType="VARCHAR" property="jumpUrl" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zkw.fedweb.dao.po.NewsArticle">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title_img, is_show, grade, cate_id, admin_id, fabu, title, intro, pv, zan, status, 
+    is_shen, province, city, ord, create_time, update_time, test_time, jump_url
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+
+  <select id="content" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM hbb_news_article WHERE cate_id =#{cateId}  ORDER BY create_time DESC
+
+  </select>
+  <select id="recommend" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  SELECT * FROM hbb_news_article WHERE cate_id =#{cateId}  ORDER BY pv DESC LIMIT 14
+
+  </select>
+  <select id="particulars" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  SELECT * FROM hbb_news_article WHERE id =#{id}
+
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hbb_news_article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_news_article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.NewsArticle">
+    insert into hbb_news_article (id, title_img, is_show, 
+      grade, cate_id, admin_id, 
+      fabu, title, intro, 
+      pv, zan, status, is_shen, 
+      province, city, ord, 
+      create_time, update_time, test_time, 
+      jump_url, content)
+    values (#{id,jdbcType=INTEGER}, #{titleImg,jdbcType=VARCHAR}, #{isShow,jdbcType=BIT}, 
+      #{grade,jdbcType=BIT}, #{cateId,jdbcType=TINYINT}, #{adminId,jdbcType=INTEGER}, 
+      #{fabu,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, 
+      #{pv,jdbcType=INTEGER}, #{zan,jdbcType=INTEGER}, #{status,jdbcType=BIT}, #{isShen,jdbcType=BIT}, 
+      #{province,jdbcType=INTEGER}, #{city,jdbcType=INTEGER}, #{ord,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, #{testTime,jdbcType=INTEGER}, 
+      #{jumpUrl,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.NewsArticle">
+    insert into hbb_news_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="titleImg != null">
+        title_img,
+      </if>
+      <if test="isShow != null">
+        is_show,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="cateId != null">
+        cate_id,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="fabu != null">
+        fabu,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="zan != null">
+        zan,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isShen != null">
+        is_shen,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="ord != null">
+        ord,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="testTime != null">
+        test_time,
+      </if>
+      <if test="jumpUrl != null">
+        jump_url,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="titleImg != null">
+        #{titleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null">
+        #{isShow,jdbcType=BIT},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=BIT},
+      </if>
+      <if test="cateId != null">
+        #{cateId,jdbcType=TINYINT},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="fabu != null">
+        #{fabu,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="zan != null">
+        #{zan,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="isShen != null">
+        #{isShen,jdbcType=BIT},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=INTEGER},
+      </if>
+      <if test="ord != null">
+        #{ord,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="testTime != null">
+        #{testTime,jdbcType=INTEGER},
+      </if>
+      <if test="jumpUrl != null">
+        #{jumpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.NewsArticle">
+    update hbb_news_article
+    <set>
+      <if test="titleImg != null">
+        title_img = #{titleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null">
+        is_show = #{isShow,jdbcType=BIT},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=BIT},
+      </if>
+      <if test="cateId != null">
+        cate_id = #{cateId,jdbcType=TINYINT},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="fabu != null">
+        fabu = #{fabu,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="zan != null">
+        zan = #{zan,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="isShen != null">
+        is_shen = #{isShen,jdbcType=BIT},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=INTEGER},
+      </if>
+      <if test="ord != null">
+        ord = #{ord,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="testTime != null">
+        test_time = #{testTime,jdbcType=INTEGER},
+      </if>
+      <if test="jumpUrl != null">
+        jump_url = #{jumpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zkw.fedweb.dao.po.NewsArticle">
+    update hbb_news_article
+    set title_img = #{titleImg,jdbcType=VARCHAR},
+      is_show = #{isShow,jdbcType=BIT},
+      grade = #{grade,jdbcType=BIT},
+      cate_id = #{cateId,jdbcType=TINYINT},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      fabu = #{fabu,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      zan = #{zan,jdbcType=INTEGER},
+      status = #{status,jdbcType=BIT},
+      is_shen = #{isShen,jdbcType=BIT},
+      province = #{province,jdbcType=INTEGER},
+      city = #{city,jdbcType=INTEGER},
+      ord = #{ord,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      test_time = #{testTime,jdbcType=INTEGER},
+      jump_url = #{jumpUrl,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.NewsArticle">
+    update hbb_news_article
+    set title_img = #{titleImg,jdbcType=VARCHAR},
+      is_show = #{isShow,jdbcType=BIT},
+      grade = #{grade,jdbcType=BIT},
+      cate_id = #{cateId,jdbcType=TINYINT},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      fabu = #{fabu,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      zan = #{zan,jdbcType=INTEGER},
+      status = #{status,jdbcType=BIT},
+      is_shen = #{isShen,jdbcType=BIT},
+      province = #{province,jdbcType=INTEGER},
+      city = #{city,jdbcType=INTEGER},
+      ord = #{ord,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      test_time = #{testTime,jdbcType=INTEGER},
+      jump_url = #{jumpUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

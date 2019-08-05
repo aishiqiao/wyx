@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.RecruitmentJobsMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.RecruitmentJobs">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="industry_id" jdbcType="INTEGER" property="industryId" />
+    <result column="job_name" jdbcType="VARCHAR" property="jobName" />
+    <result column="work_area" jdbcType="INTEGER" property="workArea" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="work_year" jdbcType="INTEGER" property="workYear" />
+    <result column="education" jdbcType="INTEGER" property="education" />
+    <result column="emolument_low" jdbcType="INTEGER" property="emolumentLow" />
+    <result column="emolument_high" jdbcType="INTEGER" property="emolumentHigh" />
+    <result column="welfare" jdbcType="VARCHAR" property="welfare" />
+    <result column="check_num" jdbcType="INTEGER" property="checkNum" />
+    <result column="collect_num" jdbcType="INTEGER" property="collectNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zkw.fedweb.dao.po.RecruitmentJobs">
+    <result column="intro" jdbcType="LONGVARCHAR" property="intro" />
+    <result column="requirement" jdbcType="LONGVARCHAR" property="requirement" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, company_id, industry_id, job_name, work_area, number, work_year, education, emolument_low, 
+    emolument_high, welfare, check_num, collect_num, status, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    intro, requirement
+  </sql>
+
+  <select id="particulars" parameterType="java.lang.Integer" resultType="com.zkw.fedweb.dao.po.RecruitmentJobs">
+    SELECT
+    a.*,
+    GROUP_CONCAT(b.name) AS welfareName
+    FROM
+    hbb_recruitment_jobs a
+    JOIN `hbb_recruitment_welfare` b
+    ON FIND_IN_SET(b.id, a.welfare)
+    WHERE a.id = #{id}
+    GROUP BY a.id
+
+  </select>
+
+
+  <select id="QueryByCondition" resultType="com.zkw.fedweb.dao.po.RecruitmentJobs">
+    SELECT
+  a.*,
+  GROUP_CONCAT(b.name) AS welfareName
+  FROM
+  hbb_recruitment_jobs a
+  JOIN `hbb_recruitment_welfare` b
+  ON FIND_IN_SET(b.id, a.welfare)
+  WHERE 1=1
+    <if test="workArea!=null and workArea !=''">
+      AND work_area =#{workArea}
+    </if>
+    <if test="industryId!=null and industryId !=''">
+      AND industry_id=#{industryId}
+    </if>
+    <if test="workYear!=null and workYear !=''">
+      AND work_year=#{workYear}
+    </if>
+    <if test="education!=null and education !=''">
+      AND education=#{education}
+    </if>
+    <if test="expectEmolumentLow!=null and expectEmolumentHigh!=null" >
+      and
+      emolument_low &gt;= #{expectEmolumentLow}
+      and emolument_low &lt;= #{expectEmolumentHigh}
+      or
+      emolument_high &gt;= #{expectEmolumentLow}
+      and emolument_high &lt;= #{expectEmolumentHigh}
+    </if>
+  GROUP BY a.id
+    <if test="type!=null and type !=''">
+
+      order by  #{type} desc
+    </if>
+  </select>
+
+
+  <!--<select id="QueryByCondition" resultType="com.zkw.fedweb.dao.po.RecruitmentJobs">-->
+    <!--SELECT-->
+    <!--a.id,-->
+    <!--a.company_id   ,-->
+    <!--a.job_name   ,-->
+    <!--a.number   ,-->
+    <!--a.check_num-->
+
+    <!--FROM-->
+    <!--hbb_recruitment_jobs a-->
+    <!--WHERE 1=1-->
+    <!--<if test="workArea!=null and workArea !=''">-->
+      <!--AND work_area =#{workArea}-->
+    <!--</if>-->
+    <!--<if test="industryId!=null and industryId !=''">-->
+      <!--AND industry_id=#{industryId}-->
+    <!--</if>-->
+    <!--<if test="workYear!=null and workYear !=''">-->
+      <!--AND work_year=#{workYear}-->
+    <!--</if>-->
+    <!--<if test="education!=null and education !=''">-->
+      <!--AND education=#{education}-->
+    <!--</if>-->
+    <!--<if test="expectEmolumentLow!=null">-->
+      <!--and  expect_emolument_low &gt;= #{expectEmolumentLow}-->
+    <!--</if>-->
+    <!--<if test="expectEmolumentHigh!=null">-->
+      <!--and  expect_emolument_high &lt;= #{expectEmolumentHigh}-->
+    <!--</if>-->
+    <!--GROUP BY a.id-->
+    <!--<if test="type!=null and type !=''">-->
+
+      <!--order by  #{type} desc-->
+    <!--</if>-->
+  <!--</select>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hbb_recruitment_jobs
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_recruitment_jobs
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.RecruitmentJobs">
+    insert into hbb_recruitment_jobs (id, company_id, industry_id, 
+      job_name, work_area, number, 
+      work_year, education, emolument_low, 
+      emolument_high, welfare, check_num, 
+      collect_num, status, create_time, 
+      update_time, intro, requirement
+      )
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{industryId,jdbcType=INTEGER}, 
+      #{jobName,jdbcType=VARCHAR}, #{workArea,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, 
+      #{workYear,jdbcType=INTEGER}, #{education,jdbcType=INTEGER}, #{emolumentLow,jdbcType=INTEGER}, 
+      #{emolumentHigh,jdbcType=INTEGER}, #{welfare,jdbcType=VARCHAR}, #{checkNum,jdbcType=INTEGER}, 
+      #{collectNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER}, #{intro,jdbcType=LONGVARCHAR}, #{requirement,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.RecruitmentJobs">
+    insert into hbb_recruitment_jobs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="industryId != null">
+        industry_id,
+      </if>
+      <if test="jobName != null">
+        job_name,
+      </if>
+      <if test="workArea != null">
+        work_area,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="workYear != null">
+        work_year,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="emolumentLow != null">
+        emolument_low,
+      </if>
+      <if test="emolumentHigh != null">
+        emolument_high,
+      </if>
+      <if test="welfare != null">
+        welfare,
+      </if>
+      <if test="checkNum != null">
+        check_num,
+      </if>
+      <if test="collectNum != null">
+        collect_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="requirement != null">
+        requirement,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="industryId != null">
+        #{industryId,jdbcType=INTEGER},
+      </if>
+      <if test="jobName != null">
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="workArea != null">
+        #{workArea,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="workYear != null">
+        #{workYear,jdbcType=INTEGER},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=INTEGER},
+      </if>
+      <if test="emolumentLow != null">
+        #{emolumentLow,jdbcType=INTEGER},
+      </if>
+      <if test="emolumentHigh != null">
+        #{emolumentHigh,jdbcType=INTEGER},
+      </if>
+      <if test="welfare != null">
+        #{welfare,jdbcType=VARCHAR},
+      </if>
+      <if test="checkNum != null">
+        #{checkNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null">
+        #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requirement != null">
+        #{requirement,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.RecruitmentJobs">
+    update hbb_recruitment_jobs
+    <set>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="industryId != null">
+        industry_id = #{industryId,jdbcType=INTEGER},
+      </if>
+      <if test="jobName != null">
+        job_name = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="workArea != null">
+        work_area = #{workArea,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="workYear != null">
+        work_year = #{workYear,jdbcType=INTEGER},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=INTEGER},
+      </if>
+      <if test="emolumentLow != null">
+        emolument_low = #{emolumentLow,jdbcType=INTEGER},
+      </if>
+      <if test="emolumentHigh != null">
+        emolument_high = #{emolumentHigh,jdbcType=INTEGER},
+      </if>
+      <if test="welfare != null">
+        welfare = #{welfare,jdbcType=VARCHAR},
+      </if>
+      <if test="checkNum != null">
+        check_num = #{checkNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null">
+        collect_num = #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requirement != null">
+        requirement = #{requirement,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zkw.fedweb.dao.po.RecruitmentJobs">
+    update hbb_recruitment_jobs
+    set company_id = #{companyId,jdbcType=INTEGER},
+      industry_id = #{industryId,jdbcType=INTEGER},
+      job_name = #{jobName,jdbcType=VARCHAR},
+      work_area = #{workArea,jdbcType=INTEGER},
+      number = #{number,jdbcType=INTEGER},
+      work_year = #{workYear,jdbcType=INTEGER},
+      education = #{education,jdbcType=INTEGER},
+      emolument_low = #{emolumentLow,jdbcType=INTEGER},
+      emolument_high = #{emolumentHigh,jdbcType=INTEGER},
+      welfare = #{welfare,jdbcType=VARCHAR},
+      check_num = #{checkNum,jdbcType=INTEGER},
+      collect_num = #{collectNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      intro = #{intro,jdbcType=LONGVARCHAR},
+      requirement = #{requirement,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.RecruitmentJobs">
+    update hbb_recruitment_jobs
+    set company_id = #{companyId,jdbcType=INTEGER},
+      industry_id = #{industryId,jdbcType=INTEGER},
+      job_name = #{jobName,jdbcType=VARCHAR},
+      work_area = #{workArea,jdbcType=INTEGER},
+      number = #{number,jdbcType=INTEGER},
+      work_year = #{workYear,jdbcType=INTEGER},
+      education = #{education,jdbcType=INTEGER},
+      emolument_low = #{emolumentLow,jdbcType=INTEGER},
+      emolument_high = #{emolumentHigh,jdbcType=INTEGER},
+      welfare = #{welfare,jdbcType=VARCHAR},
+      check_num = #{checkNum,jdbcType=INTEGER},
+      collect_num = #{collectNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

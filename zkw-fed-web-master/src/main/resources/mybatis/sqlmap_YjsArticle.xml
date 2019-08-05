@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.YjsArticleMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.YjsArticle">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title_img" jdbcType="VARCHAR" property="titleImg" />
+    <result column="is_hot" jdbcType="INTEGER" property="isHot" />
+    <result column="is_top" jdbcType="INTEGER" property="isTop" />
+    <result column="is_comment" jdbcType="INTEGER" property="isComment" />
+    <result column="cate_id" jdbcType="INTEGER" property="cateId" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zkw.fedweb.dao.po.YjsArticle">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title_img, is_hot, is_top, is_comment, cate_id, admin_id, company, title, pv, 
+    status, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <!--<select id="Dynamic" parameterType="java.lang.Integer" resultType="com.zkw.fedweb.dao.po.YjsArticle">-->
+   <!--SELECT a.id,a.title,a.content FROM hbb_yjs_article a JOIN hbb_yjs_cate b ON b.id = a.cate_id WHERE a.status=1 AND  b.name ="考研动态"ORDER BY a.create_time DESC-->
+
+  <!--</select>-->
+  <!--研究生5大板块内容查询-->
+  <select id="Dynamic" parameterType="java.lang.Integer" resultType="com.zkw.fedweb.dao.po.YjsArticle">
+SELECT
+id,title,create_time
+FROM
+  hbb_yjs_article
+WHERE cate_id = #{cate_id}
+  AND STATUS = 1
+ORDER BY is_top,
+  create_time desc
+  </select>
+  <!--研究生5大板块内容详情查询-->
+  <select id="particulars" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      SELECT * FROM hbb_yjs_article WHERE id=#{id}
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hbb_yjs_article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_yjs_article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.YjsArticle">
+    insert into hbb_yjs_article (id, title_img, is_hot, 
+      is_top, is_comment, cate_id, 
+      admin_id, company, title, 
+      pv, status, create_time, 
+      update_time, content)
+    values (#{id,jdbcType=INTEGER}, #{titleImg,jdbcType=VARCHAR}, #{isHot,jdbcType=INTEGER}, 
+      #{isTop,jdbcType=INTEGER}, #{isComment,jdbcType=INTEGER}, #{cateId,jdbcType=INTEGER}, 
+      #{adminId,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{pv,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.YjsArticle">
+    insert into hbb_yjs_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="titleImg != null">
+        title_img,
+      </if>
+      <if test="isHot != null">
+        is_hot,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="isComment != null">
+        is_comment,
+      </if>
+      <if test="cateId != null">
+        cate_id,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="titleImg != null">
+        #{titleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=INTEGER},
+      </if>
+      <if test="isComment != null">
+        #{isComment,jdbcType=INTEGER},
+      </if>
+      <if test="cateId != null">
+        #{cateId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.YjsArticle">
+    update hbb_yjs_article
+    <set>
+      <if test="titleImg != null">
+        title_img = #{titleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isHot != null">
+        is_hot = #{isHot,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=INTEGER},
+      </if>
+      <if test="isComment != null">
+        is_comment = #{isComment,jdbcType=INTEGER},
+      </if>
+      <if test="cateId != null">
+        cate_id = #{cateId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zkw.fedweb.dao.po.YjsArticle">
+    update hbb_yjs_article
+    set title_img = #{titleImg,jdbcType=VARCHAR},
+      is_hot = #{isHot,jdbcType=INTEGER},
+      is_top = #{isTop,jdbcType=INTEGER},
+      is_comment = #{isComment,jdbcType=INTEGER},
+      cate_id = #{cateId,jdbcType=INTEGER},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      company = #{company,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.YjsArticle">
+    update hbb_yjs_article
+    set title_img = #{titleImg,jdbcType=VARCHAR},
+      is_hot = #{isHot,jdbcType=INTEGER},
+      is_top = #{isTop,jdbcType=INTEGER},
+      is_comment = #{isComment,jdbcType=INTEGER},
+      cate_id = #{cateId,jdbcType=INTEGER},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      company = #{company,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

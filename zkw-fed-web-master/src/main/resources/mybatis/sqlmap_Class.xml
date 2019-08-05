@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.ClassMapper">
+    <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.Class">
+
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="img" property="img"/>
+        <result column="code" property="code"/>
+        <result column="num" property="num"/>
+        <result column="author" property="author"/>
+        <result column="auid" property="auid"/>
+        <result column="price" property="price"/>
+        <result column="old_price" property="old_price"/>
+        <result column="alltime" property="alltime"/>
+        <result column="abstract" property="abstractd"/>
+        <result column="intro" property="intro"/>
+        <result column="status" property="status"/>
+        <result column="addtime" property="addtime"/>
+        <result column="isection" property="isection"/>
+        <result column="buynum" property="buynum"/>
+        <result column="snum" property="snum"/>
+        <result column="wnum" property="wnum"/>
+        <result column="star" property="star"/>
+        <result column="type" property="type"/>
+        <result column="push" property="push"/>
+
+
+        <collection property="classAttrs" javaType="com.zkw.fedweb.dao.po.ClassAttr">
+            <id property="wid" column="wid"/>
+            <result property="atid" column="atid"/>
+            <result property="atsub" column="atsub"/>
+            <result property="clid" column="clid"/>
+            <result property="acid" column="acid"/>
+        </collection>
+
+        <!--<collection property="User" javaType="com.zkw.fedweb.dao.po.User">-->
+            <!--<result property="nick" column="nick"/>-->
+            <!--<result property="pic" column="pic"/>-->
+        <!--</collection>-->
+
+        <!--<collection property="Comment" javaType="com.zkw.fedweb.dao.po.Comment">-->
+            <!--<result property="content" column="content"/>-->
+            <!--<result property="addtime" column="addtime"/>-->
+        <!--</collection>-->
+
+
+
+
+
+
+
+</resultMap>
+    <!--根据年级查询6门课程-->
+    <select id="AllCourses" parameterType="int" resultMap="BaseResultMap">
+      SELECT a.* FROM hbb_class a JOIN hbb_class_attr b ON b.clid = a.id WHERE b.atsub =#{atsub}
+    </select>
+
+    <!--课时排行榜 根据学习人数判断热门-->
+    <select id="ClassLeader" parameterType="int" resultMap="BaseResultMap">
+    SELECT a.* FROM hbb_class a JOIN hbb_class_attr b ON b.clid=a.id WHERE b.acid=#{acid} GROUP BY a.id ORDER BY a.snum DESC  LIMIT 4
+    </select>
+
+
+    <!--销售排行榜-->
+    <select id="HotSales" parameterType="int" resultMap="BaseResultMap">
+     SELECT a.id,a.name,a.img,a.price FROM hbb_class a JOIN hbb_class_attr b ON b.clid = a.id WHERE b.acid =#{acid} GROUP BY a.id ORDER BY a.buynum DESC LIMIT 4
+    </select>
+
+    <!--首页最新课程查询 插入-->
+    <select id="NewClass" parameterType="int" resultMap="BaseResultMap">
+        SELECT a.* FROM hbb_class a JOIN hbb_class_attr b ON  b.clid = a.id WHERE b.acid = #{acid} GROUP BY a.id ORDER BY a.addtime DESC  LIMIT 6
+    </select>
+
+    <!--&lt;!&ndash;个人学习排行榜&ndash;&gt;-->
+    <!--<select id="PersonTop" parameterType="int" resultMap="BaseResultMap">-->
+        <!--SELECT b.nick ,b.id,COUNT(b.id) num FROM hbb_wvideo a JOIN hbb_user b ON b.id = a.uid WHERE wid = ${wid} AND acid =${acid} AND a.status = 1 GROUP BY b.id ORDER BY num DESC LIMIT 4-->
+    <!--</select>-->
+
+    <!--根据wid查询评论-->
+    <select id="Comments" parameterType="int" resultMap="BaseResultMap">
+        SELECT
+        a.content,
+        a.addtime,
+        b.nick,
+        b.pic,
+        c.name
+        FROM
+        hbb_comment a LEFT JOIN hbb_user b
+        ON b.id = a.uid  LEFT JOIN  hbb_class c
+        ON c.id = a.clid WHERE a.status=1
+        AND a.wid =#{wid}
+        ORDER BY ADDTIME DESC  LIMIT 4
+    </select>
+
+</mapper>

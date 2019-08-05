@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.ClumnMapper">
+    <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.Clumn">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="level" jdbcType="BIT" property="level"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="position" jdbcType="BIT" property="position"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="type" jdbcType="BIT" property="type"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="addtime" jdbcType="VARCHAR" property="addtime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zkw.fedweb.dao.po.Clumn">
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+    <!--头部导航-->
+    <select id="headline" resultMap="ResultMapWithBLOBs">
+        select
+        id,
+        NAME
+        from hbb_clumn
+        where position = 1 AND STATUS =1
+    </select>
+    <!--新手指南-->
+    <select id="innerChain" resultMap="ResultMapWithBLOBs">
+        SELECT id,`name` FROM hbb_clumn WHERE `position` =2 AND `level` =2 AND id NOT IN (14) ORDER BY sort
+    </select>
+
+
+    <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
+    <!--delete from hbb_clumn-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</delete>-->
+    <!--<insert id="insert" parameterType="com.zkw.fedweb.dao.po.Clumn">-->
+    <!--insert into hbb_clumn (id, pid, level, name, -->
+    <!--status, position, sort, address, -->
+    <!--type, code, addtime, content-->
+    <!--)-->
+    <!--values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{level,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, -->
+    <!--#{status,jdbcType=BIT}, #{position,jdbcType=BIT}, #{sort,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, -->
+    <!--#{type,jdbcType=BIT}, #{code,jdbcType=VARCHAR}, #{addtime,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}-->
+    <!--)-->
+    <!--</insert>-->
+    <!--<update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.Clumn">-->
+    <!--update hbb_clumn-->
+    <!--<set>-->
+    <!--<if test="pid != null">-->
+    <!--pid = #{pid,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="level != null">-->
+    <!--level = #{level,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="name != null">-->
+    <!--name = #{name,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--status = #{status,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="position != null">-->
+    <!--position = #{position,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="sort != null">-->
+    <!--sort = #{sort,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="address != null">-->
+    <!--address = #{address,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="type != null">-->
+    <!--type = #{type,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="code != null">-->
+    <!--code = #{code,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="addtime != null">-->
+    <!--addtime = #{addtime,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="content != null">-->
+    <!--content = #{content,jdbcType=LONGVARCHAR},-->
+    <!--</if>-->
+    <!--</set>-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</update>-->
+    <!--<select id="selectByCondition" parameterType="com.zkw.fedweb.dao.po.Clumn" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from hbb_column
+        <where>
+            1=1
+            <if test="pid != null">
+                and pid = #{pid,jdbcType=INTEGER}
+            </if>
+            <if test="level != null">
+                and level = #{level,jdbcType=BIT}
+            </if>
+            <if test="name != null">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=BIT}
+            </if>
+            <if test="position != null">
+                and position = #{position,jdbcType=BIT}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort,jdbcType=INTEGER}
+            </if>
+            <if test="address != null">
+                and address = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null">
+                and type = #{type,jdbcType=BIT}
+            </if>
+            <if test="code != null">
+                and code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="addtime != null">
+                and addtime = #{addtime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>-->
+</mapper>

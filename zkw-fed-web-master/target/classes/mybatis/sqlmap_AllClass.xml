@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.AllClassMapper">
+    <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.AllClass">
+        <id column="id" jdbcType="BIT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <!--<result column="wid" jdbcType="BIT" property="wid"/>-->
+        <result column="intor" jdbcType="VARCHAR" property="intor"/>
+        <!--<result column="img" jdbcType="VARCHAR" property="img"/>-->
+        <!--<result column="sort" jdbcType="BIT" property="sort"/>-->
+        <!--<result column="status" jdbcType="BIT" property="status"/>-->
+    </resultMap>
+    <select id="XJRecommend" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, NAME,intor from hbb_all_class WHERE wid =#{wid}
+
+    </select>
+
+    <select id="ZGRecommend" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, NAME,intor from hbb_all_class WHERE wid =#{wid} AND id&gt;=18 AND id NOT IN (35)
+
+    </select>
+
+    <select id="version" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      SELECT DISTINCT
+    a.`name`,a.id
+    FROM
+    hbb_all_class ac
+    JOIN hbb_class_attr c
+    ON ac.id = c.acid
+    JOIN hbb_attribute a
+    ON c.atsub = a.id
+    WHERE ac.id =#{id}
+    AND a.pid =#{pid}
+
+    </select>
+
+    <select id="heading" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT DISTINCT a.name,a.`id` FROM `hbb_all_class` ac   JOIN `hbb_class_attr` ca ON ac.`id`=ca.acid
+        JOIN `hbb_attribute` a ON ca.atid   = a.id
+        WHERE ac.id=#{id}
+
+    </select>
+
+    <insert id="insert" parameterType="com.zkw.fedweb.dao.po.AllClass">
+        insert into hbb_all_class (id, name, wid, intor,
+        img, sort, status)
+        values (#{id,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, #{wid,jdbcType=BIT}, #{intor,jdbcType=VARCHAR},
+        #{img,jdbcType=VARCHAR}, #{sort,jdbcType=BIT}, #{status,jdbcType=BIT})
+    </insert>
+
+
+
+    <!-- <sql id="Base_Column_List">
+     id, name, wid, intor, img, sort, status
+   </sql>-->
+
+
+    <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
+    <!--delete from hbb_all_class-->
+    <!--where id = #{id,jdbcType=BIT}-->
+    <!--</delete>-->
+
+    <!--<update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.AllClass">-->
+    <!--update hbb_all_class-->
+    <!--<set>-->
+    <!--<if test="name != null">-->
+    <!--name = #{name,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="wid != null">-->
+    <!--wid = #{wid,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="intor != null">-->
+    <!--intor = #{intor,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="img != null">-->
+    <!--img = #{img,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="sort != null">-->
+    <!--sort = #{sort,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--status = #{status,jdbcType=BIT},-->
+    <!--</if>-->
+    <!--</set>-->
+    <!--where id = #{id,jdbcType=BIT}-->
+    <!--</update>-->
+    <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap">-->
+    <!--select-->
+    <!--id, name, wid, intor, img, sort, status-->
+    <!--from hbb_all_class-->
+    <!--where id = #{id,jdbcType=BIT}-->
+    <!--</select>-->
+
+
+</mapper>

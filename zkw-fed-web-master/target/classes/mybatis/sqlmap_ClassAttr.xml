@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.ClassAttrExtMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.ClassAttrExt">
+    <result column="wid" jdbcType="BIT" property="wid" />
+    <result column="atid" jdbcType="INTEGER" property="atid" />
+    <result column="atsub" jdbcType="INTEGER" property="atsub" />
+    <result column="clid" jdbcType="INTEGER" property="clid" />
+    <result column="acid" jdbcType="BIT" property="acid" />
+
+  </resultMap>
+
+  <!--hc.name as cname,-->
+  <!--hc.wnum,-->
+  <!--hc.buynum as buynum-->
+  <!--查询全部课程名称-->
+  <select id="findClassList" resultType="com.zkw.fedweb.dao.po.ClassAttrExt">
+    SELECT distinct
+    ca1.wid as wid,
+    ca1.clid as clid,
+    ca1.acid as acid,
+    ca1.atsub as atsub1,
+    ca2.atsub as atsub2,
+    ca3.atsub as atsub3,
+    w.name as wname,
+    ac.name as acname,
+    hc.name as cname,
+    hc.wnum,
+    hc.buynum as buynum,
+    hc.img,hc.price,hc.old_price,
+    hc.snum,hc.star,hc.num
+    FROM hbb_class_attr AS ca1
+    INNER JOIN hbb_class_attr AS ca2 ON ca2.clid = ca1.clid
+    INNER JOIN hbb_class_attr AS ca3 ON ca3.clid = ca2.clid
+    LEFT JOIN hbb_web AS w ON w.id = ca1.wid
+    LEFT JOIN hbb_all_class AS ac ON ac.id = ca1.acid
+    LEFT JOIN hbb_class AS hc ON hc.id = ca1.clid
+    where 1=1
+
+    <if test="atsub1!=null and atsub1 !=''">
+    AND
+      ca1.atsub  = #{atsub1}
+    </if>
+    <if test="atsub2!=null and atsub2 !=''">
+    AND
+      ca2.atsub =#{atsub2}
+    </if>
+    <if test="atsub3!=null and atsub3 !=''">
+    AND
+      ca3.atsub =#{atsub3}
+    </if>
+
+
+
+    <!--<if test="_parameter!=null and _parameter !=''">-->
+    <!--AND-->
+    <!--w.`code` ="#{code}"-->
+    <!--</if>-->
+
+    <if test="code!=null and code !=''">
+      AND
+      w.`code` ="'"+#{code}+"'"
+    </if>
+
+
+    <if test="id!=null and id !=''">
+    AND
+      ac.id =#{id}
+    </if>
+    GROUP BY cname
+
+    <if test="type!=null and id !=''">
+      order by ${type}
+    </if>
+
+  </select>
+
+
+
+
+
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.ClassAttr">
+    insert into hbb_class_attr (wid, atid, atsub, 
+      clid, acid)
+    values (#{wid,jdbcType=BIT}, #{atid,jdbcType=INTEGER}, #{atsub,jdbcType=INTEGER}, 
+      #{clid,jdbcType=INTEGER}, #{acid,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.ClassAttr">
+    insert into hbb_class_attr
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wid != null">
+        wid,
+      </if>
+      <if test="atid != null">
+        atid,
+      </if>
+      <if test="atsub != null">
+        atsub,
+      </if>
+      <if test="clid != null">
+        clid,
+      </if>
+      <if test="acid != null">
+        acid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wid != null">
+        #{wid,jdbcType=BIT},
+      </if>
+      <if test="atid != null">
+        #{atid,jdbcType=INTEGER},
+      </if>
+      <if test="atsub != null">
+        #{atsub,jdbcType=INTEGER},
+      </if>
+      <if test="clid != null">
+        #{clid,jdbcType=INTEGER},
+      </if>
+      <if test="acid != null">
+        #{acid,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

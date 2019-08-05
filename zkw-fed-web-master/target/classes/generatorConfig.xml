@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+				"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!--&lt;!&ndash; 引入配置文件 &ndash;&gt;-->
+	<!--<properties resource="application.yml"/>-->
+
+	<classPathEntry
+					location="D:\work_soft\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />
+
+	<context id="default" targetRuntime="MyBatis3" defaultModelType="flat" >
+		<property name="javaFileEncoding" value="UTF-8" />
+
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是; false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<!--jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/fwpt
+jdbc.username=root
+jdbc.password=root-->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+		                connectionURL="jdbc:mysql://localhost:3306/fwpt"
+		                userId="root"
+						password="root" />
+
+		<!-- targetProject:生成PO类的位置 -->
+		<javaModelGenerator
+						targetPackage="com.zkw.fedweb.dao.po"
+						targetProject="src/main/java" />
+		<!-- targetProject:mapper映射文件生成的位置 -->
+		<sqlMapGenerator targetPackage="mybatis"
+		                 targetProject="src/main/resources" />
+		<!-- targetPackage：mapper接口生成的位置 -->
+		<javaClientGenerator
+						targetPackage="com.zkw.fedweb.dao.mapper"
+						targetProject="src/main/java" type="XMLMAPPER"/>
+
+		<!-- 指定数据库表 -->
+		<table tableName="hbb_recruitment_jobs"
+		       domainObjectName="RecruitmentJobs" enableInsert="true" enableUpdateByPrimaryKey="true"
+		       enableDeleteByPrimaryKey="true" enableCountByExample="false"
+		       enableUpdateByExample="false" enableDeleteByExample="false"
+		       enableSelectByExample="false" selectByExampleQueryId="false" />
+
+	</context>
+</generatorConfiguration>

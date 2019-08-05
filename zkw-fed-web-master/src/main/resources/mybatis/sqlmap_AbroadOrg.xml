@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.AbroadOrgMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.AbroadOrg">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="list_img" jdbcType="VARCHAR" property="listImg" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="stitle" jdbcType="VARCHAR" property="stitle" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="wechart" jdbcType="VARCHAR" property="wechart" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="zan" jdbcType="INTEGER" property="zan" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="is_show" jdbcType="TINYINT" property="isShow" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zkw.fedweb.dao.po.AbroadOrg">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, img, list_img, admin_id, company, title, stitle, intro, location, pv, qq, wechart, 
+    tel, zan, sort, is_show, status, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <!--推荐出国机构-->
+  <select id="RecommendOrgan" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT  title,img,id FROM hbb_abroad_org WHERE STATUS =1 AND is_show =1 ORDER BY sort,id LIMIT 5
+  </select>
+  <!--SELECT title,stitle,id FROM hbb_abroad_org WHERE STATUS=1 ORDER BY sort DESC LIMIT 5-->
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hbb_abroad_org
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_abroad_org
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.AbroadOrg">
+    insert into hbb_abroad_org (id, img, list_img, 
+      admin_id, company, title, 
+      stitle, intro, location, 
+      pv, qq, wechart, tel, 
+      zan, sort, is_show, 
+      status, create_time, update_time, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{img,jdbcType=VARCHAR}, #{listImg,jdbcType=VARCHAR}, 
+      #{adminId,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{stitle,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
+      #{pv,jdbcType=INTEGER}, #{qq,jdbcType=VARCHAR}, #{wechart,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{zan,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{isShow,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.AbroadOrg">
+    insert into hbb_abroad_org
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="listImg != null">
+        list_img,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="stitle != null">
+        stitle,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="wechart != null">
+        wechart,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="zan != null">
+        zan,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="isShow != null">
+        is_show,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="listImg != null">
+        #{listImg,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="stitle != null">
+        #{stitle,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="wechart != null">
+        #{wechart,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="zan != null">
+        #{zan,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null">
+        #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.AbroadOrg">
+    update hbb_abroad_org
+    <set>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="listImg != null">
+        list_img = #{listImg,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="stitle != null">
+        stitle = #{stitle,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="qq != null">
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="wechart != null">
+        wechart = #{wechart,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="zan != null">
+        zan = #{zan,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null">
+        is_show = #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zkw.fedweb.dao.po.AbroadOrg">
+    update hbb_abroad_org
+    set img = #{img,jdbcType=VARCHAR},
+      list_img = #{listImg,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      company = #{company,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      stitle = #{stitle,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      qq = #{qq,jdbcType=VARCHAR},
+      wechart = #{wechart,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      zan = #{zan,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      is_show = #{isShow,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.AbroadOrg">
+    update hbb_abroad_org
+    set img = #{img,jdbcType=VARCHAR},
+      list_img = #{listImg,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      company = #{company,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      stitle = #{stitle,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      qq = #{qq,jdbcType=VARCHAR},
+      wechart = #{wechart,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      zan = #{zan,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      is_show = #{isShow,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.ExamMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.Exam">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+    <result column="exam_hard" jdbcType="BIT" property="examHard" />
+    <result column="exam_name" jdbcType="VARCHAR" property="examName" />
+    <result column="exam_type" jdbcType="INTEGER" property="examType" />
+    <result column="exam_intr" jdbcType="VARCHAR" property="examIntr" />
+    <result column="exam_img" jdbcType="VARCHAR" property="examImg" />
+    <result column="all_time" jdbcType="VARCHAR" property="allTime" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="study_num" jdbcType="INTEGER" property="studyNum" />
+    <result column="hold_num" jdbcType="INTEGER" property="holdNum" />
+    <result column="addtime" jdbcType="INTEGER" property="addtime" />
+    <result column="has_question" jdbcType="BIT" property="hasQuestion" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, book_id, book_name, exam_hard, exam_name, exam_type, exam_intr, exam_img, all_time, 
+    pv, study_num, hold_num, addtime, has_question
+  </sql>
+
+  <select id="sorting" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * FROM `hbb_exam` WHERE 1=1
+    <if test="bookId!=null and bookId !=''">
+      and book_id =#{bookId}
+    </if>
+
+    <if test="type!=null and type !=''">
+      order by ${type}
+    </if>
+
+  </select>
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hbb_exam
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_exam
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.Exam">
+    insert into hbb_exam (id, book_id, book_name, 
+      exam_hard, exam_name, exam_type, 
+      exam_intr, exam_img, all_time, 
+      pv, study_num, hold_num, 
+      addtime, has_question)
+    values (#{id,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, #{bookName,jdbcType=VARCHAR}, 
+      #{examHard,jdbcType=BIT}, #{examName,jdbcType=VARCHAR}, #{examType,jdbcType=INTEGER}, 
+      #{examIntr,jdbcType=VARCHAR}, #{examImg,jdbcType=VARCHAR}, #{allTime,jdbcType=VARCHAR}, 
+      #{pv,jdbcType=INTEGER}, #{studyNum,jdbcType=INTEGER}, #{holdNum,jdbcType=INTEGER}, 
+      #{addtime,jdbcType=INTEGER}, #{hasQuestion,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.Exam">
+    insert into hbb_exam
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="bookName != null">
+        book_name,
+      </if>
+      <if test="examHard != null">
+        exam_hard,
+      </if>
+      <if test="examName != null">
+        exam_name,
+      </if>
+      <if test="examType != null">
+        exam_type,
+      </if>
+      <if test="examIntr != null">
+        exam_intr,
+      </if>
+      <if test="examImg != null">
+        exam_img,
+      </if>
+      <if test="allTime != null">
+        all_time,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="studyNum != null">
+        study_num,
+      </if>
+      <if test="holdNum != null">
+        hold_num,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="hasQuestion != null">
+        has_question,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookName != null">
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="examHard != null">
+        #{examHard,jdbcType=BIT},
+      </if>
+      <if test="examName != null">
+        #{examName,jdbcType=VARCHAR},
+      </if>
+      <if test="examType != null">
+        #{examType,jdbcType=INTEGER},
+      </if>
+      <if test="examIntr != null">
+        #{examIntr,jdbcType=VARCHAR},
+      </if>
+      <if test="examImg != null">
+        #{examImg,jdbcType=VARCHAR},
+      </if>
+      <if test="allTime != null">
+        #{allTime,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="studyNum != null">
+        #{studyNum,jdbcType=INTEGER},
+      </if>
+      <if test="holdNum != null">
+        #{holdNum,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=INTEGER},
+      </if>
+      <if test="hasQuestion != null">
+        #{hasQuestion,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.Exam">
+    update hbb_exam
+    <set>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookName != null">
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="examHard != null">
+        exam_hard = #{examHard,jdbcType=BIT},
+      </if>
+      <if test="examName != null">
+        exam_name = #{examName,jdbcType=VARCHAR},
+      </if>
+      <if test="examType != null">
+        exam_type = #{examType,jdbcType=INTEGER},
+      </if>
+      <if test="examIntr != null">
+        exam_intr = #{examIntr,jdbcType=VARCHAR},
+      </if>
+      <if test="examImg != null">
+        exam_img = #{examImg,jdbcType=VARCHAR},
+      </if>
+      <if test="allTime != null">
+        all_time = #{allTime,jdbcType=VARCHAR},
+      </if>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="studyNum != null">
+        study_num = #{studyNum,jdbcType=INTEGER},
+      </if>
+      <if test="holdNum != null">
+        hold_num = #{holdNum,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=INTEGER},
+      </if>
+      <if test="hasQuestion != null">
+        has_question = #{hasQuestion,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.Exam">
+    update hbb_exam
+    set book_id = #{bookId,jdbcType=INTEGER},
+      book_name = #{bookName,jdbcType=VARCHAR},
+      exam_hard = #{examHard,jdbcType=BIT},
+      exam_name = #{examName,jdbcType=VARCHAR},
+      exam_type = #{examType,jdbcType=INTEGER},
+      exam_intr = #{examIntr,jdbcType=VARCHAR},
+      exam_img = #{examImg,jdbcType=VARCHAR},
+      all_time = #{allTime,jdbcType=VARCHAR},
+      pv = #{pv,jdbcType=INTEGER},
+      study_num = #{studyNum,jdbcType=INTEGER},
+      hold_num = #{holdNum,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=INTEGER},
+      has_question = #{hasQuestion,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

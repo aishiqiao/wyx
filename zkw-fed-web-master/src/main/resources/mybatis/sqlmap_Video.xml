@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.Video">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="csid" jdbcType="INTEGER" property="csid" />
+    <result column="clid" jdbcType="INTEGER" property="clid" />
+    <result column="vname" jdbcType="VARCHAR" property="vname" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="sort" jdbcType="BIT" property="sort" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, csid, clid, vname, address, time, author, sort, num
+  </sql>
+  <!--视频链接表-->
+  <select id="video" parameterType="java.lang.Integer" resultType="com.zkw.fedweb.dao.po.Video">
+   SELECT a.*,b.* FROM hbb_video a JOIN hbb_class b
+ON a.clid=b.id
+ WHERE b.id=#{id}
+  </select>
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hbb_video
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_video
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.Video">
+    insert into hbb_video (id, csid, clid, 
+      vname, address, time, 
+      author, sort, num)
+    values (#{id,jdbcType=INTEGER}, #{csid,jdbcType=INTEGER}, #{clid,jdbcType=INTEGER}, 
+      #{vname,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{sort,jdbcType=BIT}, #{num,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.Video">
+    insert into hbb_video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="csid != null">
+        csid,
+      </if>
+      <if test="clid != null">
+        clid,
+      </if>
+      <if test="vname != null">
+        vname,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="csid != null">
+        #{csid,jdbcType=INTEGER},
+      </if>
+      <if test="clid != null">
+        #{clid,jdbcType=INTEGER},
+      </if>
+      <if test="vname != null">
+        #{vname,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=BIT},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.Video">
+    update hbb_video
+    <set>
+      <if test="csid != null">
+        csid = #{csid,jdbcType=INTEGER},
+      </if>
+      <if test="clid != null">
+        clid = #{clid,jdbcType=INTEGER},
+      </if>
+      <if test="vname != null">
+        vname = #{vname,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=BIT},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.Video">
+    update hbb_video
+    set csid = #{csid,jdbcType=INTEGER},
+      clid = #{clid,jdbcType=INTEGER},
+      vname = #{vname,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=BIT},
+      num = #{num,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

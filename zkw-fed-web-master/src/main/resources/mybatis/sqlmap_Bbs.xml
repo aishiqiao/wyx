@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.BbsMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.Bbs">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="fen" jdbcType="INTEGER" property="fen" />
+    <result column="cate_id" jdbcType="INTEGER" property="cateId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="is_top" jdbcType="INTEGER" property="isTop" />
+    <result column="is_hot" jdbcType="INTEGER" property="isHot" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="reply_num" jdbcType="INTEGER" property="replyNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zkw.fedweb.dao.po.Bbs">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, type, fen, cate_id, title, user_id, is_top, is_hot, pv, reply_num, status, label, 
+    create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="content" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM hbb_bbs WHERE cate_id =#{cateId}
+    <if test="type!=null and type !=''">
+      order by ${type}
+    </if>
+  </select>
+  <select id="particulars" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM hbb_bbs WHERE id=#{id}
+
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from hbb_bbs
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_bbs
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.Bbs">
+    insert into hbb_bbs (id, type, fen, 
+      cate_id, title, user_id, 
+      is_top, is_hot, pv, reply_num, 
+      status, label, create_time, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{fen,jdbcType=INTEGER}, 
+      #{cateId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{isTop,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, #{pv,jdbcType=INTEGER}, #{replyNum,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{label,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.Bbs">
+    insert into hbb_bbs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="fen != null">
+        fen,
+      </if>
+      <if test="cateId != null">
+        cate_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="isHot != null">
+        is_hot,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="replyNum != null">
+        reply_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="label != null">
+        label,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="fen != null">
+        #{fen,jdbcType=INTEGER},
+      </if>
+      <if test="cateId != null">
+        #{cateId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=INTEGER},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="replyNum != null">
+        #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.Bbs">
+    update hbb_bbs
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="fen != null">
+        fen = #{fen,jdbcType=INTEGER},
+      </if>
+      <if test="cateId != null">
+        cate_id = #{cateId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=INTEGER},
+      </if>
+      <if test="isHot != null">
+        is_hot = #{isHot,jdbcType=INTEGER},
+      </if>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="replyNum != null">
+        reply_num = #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zkw.fedweb.dao.po.Bbs">
+    update hbb_bbs
+    set type = #{type,jdbcType=INTEGER},
+      fen = #{fen,jdbcType=INTEGER},
+      cate_id = #{cateId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      is_top = #{isTop,jdbcType=INTEGER},
+      is_hot = #{isHot,jdbcType=INTEGER},
+      pv = #{pv,jdbcType=INTEGER},
+      reply_num = #{replyNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      label = #{label,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.Bbs">
+    update hbb_bbs
+    set type = #{type,jdbcType=INTEGER},
+      fen = #{fen,jdbcType=INTEGER},
+      cate_id = #{cateId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      is_top = #{isTop,jdbcType=INTEGER},
+      is_hot = #{isHot,jdbcType=INTEGER},
+      pv = #{pv,jdbcType=INTEGER},
+      reply_num = #{replyNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      label = #{label,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

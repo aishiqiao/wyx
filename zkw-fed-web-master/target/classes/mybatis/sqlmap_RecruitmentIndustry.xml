@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.RecruitmentIndustryMapper">
+  <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.RecruitmentIndustry">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cate_name" jdbcType="VARCHAR" property="cateName" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="cate_path" jdbcType="VARCHAR" property="catePath" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cate_name, parent_id, cate_path, status, create_time, update_time
+  </sql>
+  <select id="title" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+         SELECT a.id as aid,
+         a.cate_name AS aname ,
+         b.id as bid,
+         b.cate_name AS bname ,
+         c.id as cid,
+         c.cate_name AS cname
+         FROM
+     hbb_recruitment_industry a LEFT JOIN   hbb_recruitment_industry b
+     ON a.id=b.parent_id
+     JOIN hbb_recruitment_industry c
+     ON b.id=c.parent_id
+     WHERE a.id =#{id}
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hbb_recruitment_industry
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hbb_recruitment_industry
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zkw.fedweb.dao.po.RecruitmentIndustry">
+    insert into hbb_recruitment_industry (id, cate_name, parent_id, 
+      cate_path, status, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{cateName,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{catePath,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.RecruitmentIndustry">
+    insert into hbb_recruitment_industry
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cateName != null">
+        cate_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="catePath != null">
+        cate_path,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cateName != null">
+        #{cateName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="catePath != null">
+        #{catePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.RecruitmentIndustry">
+    update hbb_recruitment_industry
+    <set>
+      <if test="cateName != null">
+        cate_name = #{cateName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="catePath != null">
+        cate_path = #{catePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.RecruitmentIndustry">
+    update hbb_recruitment_industry
+    set cate_name = #{cateName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      cate_path = #{catePath,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

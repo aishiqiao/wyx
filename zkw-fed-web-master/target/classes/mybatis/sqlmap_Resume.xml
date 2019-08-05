@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkw.fedweb.dao.mapper.ResumeMapper">
+    <resultMap id="BaseResultMap" type="com.zkw.fedweb.dao.po.Resume">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="resume_name" jdbcType="VARCHAR" property="resumeName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="gender" jdbcType="INTEGER" property="gender"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="qq" jdbcType="INTEGER" property="qq"/>
+        <!--<result column="birthday" jdbcType="DATE" property="birthday" />-->
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="native_place" jdbcType="VARCHAR" property="nativePlace"/>
+        <result column="img" jdbcType="VARCHAR" property="img"/>
+        <result column="work_year" jdbcType="INTEGER" property="workYear"/>
+        <result column="education" jdbcType="INTEGER" property="education"/>
+        <result column="hiredate" jdbcType="INTEGER" property="hiredate"/>
+        <result column="job_type" jdbcType="INTEGER" property="jobType"/>
+        <result column="expect_area" jdbcType="INTEGER" property="expectArea"/>
+        <result column="industry_id" jdbcType="INTEGER" property="industryId"/>
+        <result column="expect_emolument_low" jdbcType="INTEGER" property="expectEmolumentLow"/>
+        <result column="expect_emolument_high" jdbcType="INTEGER" property="expectEmolumentHigh"/>
+        <result column="check_num" jdbcType="INTEGER" property="checkNum"/>
+        <result column="download_num" jdbcType="INTEGER" property="downloadNum"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="INTEGER" property="createTime"/>
+        <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zkw.fedweb.dao.po.Resume">
+        <result column="skill" jdbcType="LONGVARCHAR" property="skill"/>
+        <result column="evaluate" jdbcType="LONGVARCHAR" property="evaluate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, resume_name, user_name, gender, phone, email, qq, birthday, age, native_place, 
+    img, work_year, education, hiredate, job_type, expect_area, industry_id, expect_emolument_low, 
+    expect_emolument_high, check_num, download_num, status, create_time, update_time
+  </sql>
+    <sql id="Blob_Column_List">
+    skill, evaluate
+  </sql>
+
+    <select id="topThree" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+   SELECT * FROM hbb_resume ORDER BY   create_time DESC LIMIT 3
+  </select>
+    <select id="single" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM hbb_resume WHERE id=#{id}
+
+  </select>
+    <select id="QueryByCondition" resultMap="ResultMapWithBLOBs">
+        SELECT
+        *
+        FROM
+        hbb_resume
+        WHERE 1=1
+        <if test="area!=null and area !=''">
+            AND
+            expect_area =#{area}
+        </if>
+        <if test="industryId!=null and industryId !=''">
+
+            and industry_id =#{industryId}
+        </if>
+
+
+        <if test="workYear!=null and workYear !=''">
+
+            and work_year =#{workYear}
+        </if>
+        <if test="education!=null and education !=''">
+
+            and education =#{education}
+        </if>
+        <if test="expectEmolumentLow!=null and expectEmolumentHigh!=null">
+            and
+            expect_emolument_low &gt;= #{expectEmolumentLow} and expect_emolument_low &lt;= #{expectEmolumentHigh}
+            or
+            expect_emolument_high &gt;= #{expectEmolumentLow} and expect_emolument_high &lt;= #{expectEmolumentHigh}
+        </if>
+
+
+        <if test="yound!=null and old!=null">
+            and age BETWEEN #{yound} and #{old}
+        </if>
+
+        <if test="type!=null and type !=''">
+
+            order by #{type} ASC
+        </if>
+
+    </select>
+
+
+    <!--<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">-->
+    <!--select -->
+    <!--<include refid="Base_Column_List" />-->
+    <!--,-->
+    <!--<include refid="Blob_Column_List" />-->
+    <!--from hbb_resume-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</select>-->
+    <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
+    <!--delete from hbb_resume-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</delete>-->
+    <!--<insert id="insert" parameterType="com.zkw.fedweb.dao.po.Resume">-->
+    <!--insert into hbb_resume (id, user_id, resume_name, -->
+    <!--user_name, gender, phone, -->
+    <!--email, qq, birthday, age, -->
+    <!--native_place, img, work_year, -->
+    <!--education, hiredate, job_type, -->
+    <!--expect_area, industry_id, expect_emolument_low, -->
+    <!--expect_emolument_high, check_num, download_num, -->
+    <!--status, create_time, update_time, -->
+    <!--skill, evaluate)-->
+    <!--values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{resumeName,jdbcType=VARCHAR}, -->
+    <!--#{userName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, -->
+    <!--#{email,jdbcType=VARCHAR}, #{qq,jdbcType=INTEGER}, #{birthday,jdbcType=DATE}, #{age,jdbcType=INTEGER}, -->
+    <!--#{nativePlace,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{workYear,jdbcType=INTEGER}, -->
+    <!--#{education,jdbcType=INTEGER}, #{hiredate,jdbcType=INTEGER}, #{jobType,jdbcType=INTEGER}, -->
+    <!--#{expectArea,jdbcType=INTEGER}, #{industryId,jdbcType=INTEGER}, #{expectEmolumentLow,jdbcType=INTEGER}, -->
+    <!--#{expectEmolumentHigh,jdbcType=INTEGER}, #{checkNum,jdbcType=INTEGER}, #{downloadNum,jdbcType=INTEGER}, -->
+    <!--#{status,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, -->
+    <!--#{skill,jdbcType=LONGVARCHAR}, #{evaluate,jdbcType=LONGVARCHAR})-->
+    <!--</insert>-->
+    <!--<insert id="insertSelective" parameterType="com.zkw.fedweb.dao.po.Resume">-->
+    <!--insert into hbb_resume-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--<if test="id != null">-->
+    <!--id,-->
+    <!--</if>-->
+    <!--<if test="userId != null">-->
+    <!--user_id,-->
+    <!--</if>-->
+    <!--<if test="resumeName != null">-->
+    <!--resume_name,-->
+    <!--</if>-->
+    <!--<if test="userName != null">-->
+    <!--user_name,-->
+    <!--</if>-->
+    <!--<if test="gender != null">-->
+    <!--gender,-->
+    <!--</if>-->
+    <!--<if test="phone != null">-->
+    <!--phone,-->
+    <!--</if>-->
+    <!--<if test="email != null">-->
+    <!--email,-->
+    <!--</if>-->
+    <!--<if test="qq != null">-->
+    <!--qq,-->
+    <!--</if>-->
+    <!--<if test="birthday != null">-->
+    <!--birthday,-->
+    <!--</if>-->
+    <!--<if test="age != null">-->
+    <!--age,-->
+    <!--</if>-->
+    <!--<if test="nativePlace != null">-->
+    <!--native_place,-->
+    <!--</if>-->
+    <!--<if test="img != null">-->
+    <!--img,-->
+    <!--</if>-->
+    <!--<if test="workYear != null">-->
+    <!--work_year,-->
+    <!--</if>-->
+    <!--<if test="education != null">-->
+    <!--education,-->
+    <!--</if>-->
+    <!--<if test="hiredate != null">-->
+    <!--hiredate,-->
+    <!--</if>-->
+    <!--<if test="jobType != null">-->
+    <!--job_type,-->
+    <!--</if>-->
+    <!--<if test="expectArea != null">-->
+    <!--expect_area,-->
+    <!--</if>-->
+    <!--<if test="industryId != null">-->
+    <!--industry_id,-->
+    <!--</if>-->
+    <!--<if test="expectEmolumentLow != null">-->
+    <!--expect_emolument_low,-->
+    <!--</if>-->
+    <!--<if test="expectEmolumentHigh != null">-->
+    <!--expect_emolument_high,-->
+    <!--</if>-->
+    <!--<if test="checkNum != null">-->
+    <!--check_num,-->
+    <!--</if>-->
+    <!--<if test="downloadNum != null">-->
+    <!--download_num,-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--status,-->
+    <!--</if>-->
+    <!--<if test="createTime != null">-->
+    <!--create_time,-->
+    <!--</if>-->
+    <!--<if test="updateTime != null">-->
+    <!--update_time,-->
+    <!--</if>-->
+    <!--<if test="skill != null">-->
+    <!--skill,-->
+    <!--</if>-->
+    <!--<if test="evaluate != null">-->
+    <!--evaluate,-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+    <!--<if test="id != null">-->
+    <!--#{id,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="userId != null">-->
+    <!--#{userId,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="resumeName != null">-->
+    <!--#{resumeName,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="userName != null">-->
+    <!--#{userName,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="gender != null">-->
+    <!--#{gender,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="phone != null">-->
+    <!--#{phone,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="email != null">-->
+    <!--#{email,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="qq != null">-->
+    <!--#{qq,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="birthday != null">-->
+    <!--#{birthday,jdbcType=DATE},-->
+    <!--</if>-->
+    <!--<if test="age != null">-->
+    <!--#{age,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="nativePlace != null">-->
+    <!--#{nativePlace,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="img != null">-->
+    <!--#{img,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="workYear != null">-->
+    <!--#{workYear,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="education != null">-->
+    <!--#{education,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="hiredate != null">-->
+    <!--#{hiredate,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="jobType != null">-->
+    <!--#{jobType,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="expectArea != null">-->
+    <!--#{expectArea,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="industryId != null">-->
+    <!--#{industryId,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="expectEmolumentLow != null">-->
+    <!--#{expectEmolumentLow,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="expectEmolumentHigh != null">-->
+    <!--#{expectEmolumentHigh,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="checkNum != null">-->
+    <!--#{checkNum,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="downloadNum != null">-->
+    <!--#{downloadNum,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--#{status,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="createTime != null">-->
+    <!--#{createTime,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="updateTime != null">-->
+    <!--#{updateTime,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="skill != null">-->
+    <!--#{skill,jdbcType=LONGVARCHAR},-->
+    <!--</if>-->
+    <!--<if test="evaluate != null">-->
+    <!--#{evaluate,jdbcType=LONGVARCHAR},-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--</insert>-->
+    <!--<update id="updateByPrimaryKeySelective" parameterType="com.zkw.fedweb.dao.po.Resume">-->
+    <!--update hbb_resume-->
+    <!--<set>-->
+    <!--<if test="userId != null">-->
+    <!--user_id = #{userId,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="resumeName != null">-->
+    <!--resume_name = #{resumeName,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="userName != null">-->
+    <!--user_name = #{userName,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="gender != null">-->
+    <!--gender = #{gender,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="phone != null">-->
+    <!--phone = #{phone,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="email != null">-->
+    <!--email = #{email,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="qq != null">-->
+    <!--qq = #{qq,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="birthday != null">-->
+    <!--birthday = #{birthday,jdbcType=DATE},-->
+    <!--</if>-->
+    <!--<if test="age != null">-->
+    <!--age = #{age,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="nativePlace != null">-->
+    <!--native_place = #{nativePlace,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="img != null">-->
+    <!--img = #{img,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="workYear != null">-->
+    <!--work_year = #{workYear,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="education != null">-->
+    <!--education = #{education,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="hiredate != null">-->
+    <!--hiredate = #{hiredate,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="jobType != null">-->
+    <!--job_type = #{jobType,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="expectArea != null">-->
+    <!--expect_area = #{expectArea,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="industryId != null">-->
+    <!--industry_id = #{industryId,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="expectEmolumentLow != null">-->
+    <!--expect_emolument_low = #{expectEmolumentLow,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="expectEmolumentHigh != null">-->
+    <!--expect_emolument_high = #{expectEmolumentHigh,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="checkNum != null">-->
+    <!--check_num = #{checkNum,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="downloadNum != null">-->
+    <!--download_num = #{downloadNum,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="status != null">-->
+    <!--status = #{status,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="createTime != null">-->
+    <!--create_time = #{createTime,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="updateTime != null">-->
+    <!--update_time = #{updateTime,jdbcType=INTEGER},-->
+    <!--</if>-->
+    <!--<if test="skill != null">-->
+    <!--skill = #{skill,jdbcType=LONGVARCHAR},-->
+    <!--</if>-->
+    <!--<if test="evaluate != null">-->
+    <!--evaluate = #{evaluate,jdbcType=LONGVARCHAR},-->
+    <!--</if>-->
+    <!--</set>-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</update>-->
+    <!--<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zkw.fedweb.dao.po.Resume">-->
+    <!--update hbb_resume-->
+    <!--set user_id = #{userId,jdbcType=INTEGER},-->
+    <!--resume_name = #{resumeName,jdbcType=VARCHAR},-->
+    <!--user_name = #{userName,jdbcType=VARCHAR},-->
+    <!--gender = #{gender,jdbcType=INTEGER},-->
+    <!--phone = #{phone,jdbcType=VARCHAR},-->
+    <!--email = #{email,jdbcType=VARCHAR},-->
+    <!--qq = #{qq,jdbcType=INTEGER},-->
+    <!--birthday = #{birthday,jdbcType=DATE},-->
+    <!--age = #{age,jdbcType=INTEGER},-->
+    <!--native_place = #{nativePlace,jdbcType=VARCHAR},-->
+    <!--img = #{img,jdbcType=VARCHAR},-->
+    <!--work_year = #{workYear,jdbcType=INTEGER},-->
+    <!--education = #{education,jdbcType=INTEGER},-->
+    <!--hiredate = #{hiredate,jdbcType=INTEGER},-->
+    <!--job_type = #{jobType,jdbcType=INTEGER},-->
+    <!--expect_area = #{expectArea,jdbcType=INTEGER},-->
+    <!--industry_id = #{industryId,jdbcType=INTEGER},-->
+    <!--expect_emolument_low = #{expectEmolumentLow,jdbcType=INTEGER},-->
+    <!--expect_emolument_high = #{expectEmolumentHigh,jdbcType=INTEGER},-->
+    <!--check_num = #{checkNum,jdbcType=INTEGER},-->
+    <!--download_num = #{downloadNum,jdbcType=INTEGER},-->
+    <!--status = #{status,jdbcType=INTEGER},-->
+    <!--create_time = #{createTime,jdbcType=INTEGER},-->
+    <!--update_time = #{updateTime,jdbcType=INTEGER},-->
+    <!--skill = #{skill,jdbcType=LONGVARCHAR},-->
+    <!--evaluate = #{evaluate,jdbcType=LONGVARCHAR}-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</update>-->
+    <!--<update id="updateByPrimaryKey" parameterType="com.zkw.fedweb.dao.po.Resume">-->
+    <!--update hbb_resume-->
+    <!--set user_id = #{userId,jdbcType=INTEGER},-->
+    <!--resume_name = #{resumeName,jdbcType=VARCHAR},-->
+    <!--user_name = #{userName,jdbcType=VARCHAR},-->
+    <!--gender = #{gender,jdbcType=INTEGER},-->
+    <!--phone = #{phone,jdbcType=VARCHAR},-->
+    <!--email = #{email,jdbcType=VARCHAR},-->
+    <!--qq = #{qq,jdbcType=INTEGER},-->
+    <!--birthday = #{birthday,jdbcType=DATE},-->
+    <!--age = #{age,jdbcType=INTEGER},-->
+    <!--native_place = #{nativePlace,jdbcType=VARCHAR},-->
+    <!--img = #{img,jdbcType=VARCHAR},-->
+    <!--work_year = #{workYear,jdbcType=INTEGER},-->
+    <!--education = #{education,jdbcType=INTEGER},-->
+    <!--hiredate = #{hiredate,jdbcType=INTEGER},-->
+    <!--job_type = #{jobType,jdbcType=INTEGER},-->
+    <!--expect_area = #{expectArea,jdbcType=INTEGER},-->
+    <!--industry_id = #{industryId,jdbcType=INTEGER},-->
+    <!--expect_emolument_low = #{expectEmolumentLow,jdbcType=INTEGER},-->
+    <!--expect_emolument_high = #{expectEmolumentHigh,jdbcType=INTEGER},-->
+    <!--check_num = #{checkNum,jdbcType=INTEGER},-->
+    <!--download_num = #{downloadNum,jdbcType=INTEGER},-->
+    <!--status = #{status,jdbcType=INTEGER},-->
+    <!--create_time = #{createTime,jdbcType=INTEGER},-->
+    <!--update_time = #{updateTime,jdbcType=INTEGER}-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</update>-->
+</mapper>
